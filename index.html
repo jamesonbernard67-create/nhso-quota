@@ -34,8 +34,8 @@
             <div id="result-container" class="flex-grow flex flex-col items-center justify-center">
                 <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100 w-full text-center">
                     <p class="text-sm text-blue-600 font-semibold mb-2">จำนวนสิทธิคงเหลือ</p>
-                    <div id="quota-value" class="text-7xl font-black text-blue-600 mb-2 drop-shadow-sm">--</div>
-                    <p class="text-sm text-slate-500">ครั้ง</p>
+                    <div id="quota-value" class="text-7xl font-black text-blue-600 mb-2 drop-shadow-sm transition-all duration-300">--</div>
+                    <p id="quota-unit" class="text-sm text-slate-500 font-medium">ครั้ง / รายการ</p>
                 </div>
                 <!-- ส่วนแสดงผล JSON สำหรับตรวจสอบกรณีหา Field ยอดคงเหลือไม่เจอ -->
                 <div id="debug-info" class="hidden w-full mt-4 text-[10px] text-left bg-slate-100 p-3 rounded-lg overflow-auto max-h-24 text-slate-600 font-mono border border-slate-200">
@@ -76,8 +76,7 @@
             document.getElementById('debug-info').classList.add('hidden');
 
             try {
-                // ยิงไปหาเซิร์ฟเวอร์ Vercel ของเรา
-                // ไม่ต้องส่ง pid และ cookie จากหน้าเว็บแล้ว ให้ระบบหลังบ้านไปดึงจาก Environment Variables เอง
+                // ยิงไปหาเซิร์ฟเวอร์ Vercel ของเรา (ซึ่งรันไฟล์ quota.js ที่ดึงจากเส้น /services)
                 const response = await fetch('/api/quota', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
@@ -123,18 +122,26 @@
                             }
                         }
 
+                        const valEl = document.getElementById('quota-value');
+                        const unitEl = document.getElementById('quota-unit');
+
                         if (quota === '?' || quota === null || quota === undefined) {
-                            document.getElementById('quota-value').innerText = '?';
+                            valEl.innerText = '?';
+                            unitEl.innerText = 'ไม่พบข้อมูล';
                             const debugEl = document.getElementById('debug-info');
                             debugEl.classList.remove('hidden');
                             debugEl.innerText = "หาตัวเลขไม่พบ โครงสร้างข้อมูล:\n" + JSON.stringify(targetService, null, 2);
                         } else {
-                            document.getElementById('quota-value').innerText = quota;
+                            // แสดงผลเป็นตัวเลขตรงๆ อย่างภาคภูมิใจ!
+                            valEl.innerText = quota;
+                            valEl.classList.remove('text-red-500', 'text-orange-500');
+                            valEl.classList.add('text-blue-600', 'text-7xl');
+                            unitEl.innerText = 'ครั้ง / รายการ';
                         }
 
                     } else {
                         showError('ไม่พบรหัสบริการ PG0190010 ในระบบ');
-                        document.getElementById('error-sub-msg').innerText = 'หรืออาจไม่มีสิทธิรับบริการนี้';
+                        document.getElementById('error-sub-msg').innerText = 'หรือคุณอาจไม่มีสิทธิรับบริการนี้';
                     }
                 } else {
                     showError(data.error ? `Error: ${data.error}` : `HTTP Error ${response.status}`);
@@ -179,14 +186,13 @@
 
         // --- ทำงานเมื่อเปิดหน้าเว็บครั้งแรก ---
         window.onload = () => {
-            // โหลดปุ๊บ สั่งดึงข้อมูลทันทีโดยอัตโนมัติ
             fetchData();
         };
 
         // สั่งรีเฟรชข้อมูลอัตโนมัติทุกๆ 1 นาที
         setInterval(() => {
             fetchData();
-        }, 60000); 
+        }, 10000); 
     </script>
 </body>
 </html>
