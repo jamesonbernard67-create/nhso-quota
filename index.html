@@ -10,30 +10,6 @@
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Modal ยืนยันรหัสผ่าน Admin -->
-    <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
-        <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 to-orange-400"></div>
-            <div class="text-center mb-6 mt-2">
-                <div class="bg-red-50 text-red-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-800">ผู้ดูแลระบบ</h3>
-                <p class="text-slate-500 text-sm mt-1">กรุณาใส่รหัสผ่านเพื่อเข้าตั้งค่า</p>
-            </div>
-            
-            <input type="password" id="admin-pwd-input" onkeypress="if(event.key==='Enter') verifyAdmin()" class="w-full border-2 border-slate-200 rounded-xl p-4 mb-2 text-center text-lg tracking-widest focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition" placeholder="••••••••">
-            <p id="admin-error" class="text-red-500 text-sm hidden mb-4 text-center font-medium"></p>
-            
-            <div class="flex gap-3 mt-6">
-                <button onclick="closeAdminModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium p-4 rounded-xl transition">ยกเลิก</button>
-                <button onclick="verifyAdmin()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium p-4 rounded-xl shadow-lg shadow-red-500/30 transition">เข้าสู่ระบบ</button>
-            </div>
-        </div>
-    </div>
-
     <!-- แผงแสดงผลหลัก (แดชบอร์ด) -->
     <div id="main-panel" class="bg-white rounded-2xl shadow-xl w-full max-w-md relative overflow-hidden flex flex-col h-[550px]">
         <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-green-400"></div>
@@ -44,13 +20,6 @@
                     <h1 class="text-2xl font-bold text-slate-800">ตรวจสอบสิทธิ</h1>
                     <p class="text-slate-500 text-sm font-medium mt-1">PG0190010 (นวด อบ ประคบ)</p>
                 </div>
-                <!-- ปุ่มตั้งค่าเรียกใช้ Modal ของ Admin -->
-                <button onclick="promptAdmin()" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 transition" title="ตั้งค่าระบบ (Admin)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </button>
             </div>
 
             <!-- Area สถานะต่างๆ -->
@@ -79,7 +48,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <p id="error-msg" class="text-sm font-medium">เกิดข้อผิดพลาด</p>
-                    <p id="error-sub-msg" class="text-xs text-red-400 mt-2 break-words">หากขึ้น Error 401 ให้กดปุ่ม ⚙️ ตั้งค่า ด้านบนเพื่ออัปเดต Cookie ใหม่</p>
+                    <p id="error-sub-msg" class="text-xs text-red-400 mt-2 break-words"></p>
                 </div>
             </div>
 
@@ -97,138 +66,9 @@
         </div>
     </div>
 
-    <!-- แผงตั้งค่า (ซ่อนอยู่) -->
-    <div id="settings-panel" class="hidden bg-white rounded-2xl shadow-xl w-full max-w-md relative overflow-hidden h-[550px] flex flex-col">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h2 class="text-lg font-bold text-slate-800">⚙️ ตั้งค่าระบบผู้ดูแล</h2>
-            <button onclick="closeSettings()" class="text-slate-400 hover:text-red-500 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-        </div>
-        
-        <div class="p-6 flex-grow overflow-y-auto">
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-slate-700 mb-1">เลขบัตรประชาชน (PID)</label>
-                <input type="text" id="input-pid" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="เช่น 5101200017501">
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Cookie ข้อมูล</label>
-                <textarea id="input-cookie" rows="6" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="วาง Cookie ที่ก๊อปปี้มาตรงนี้..."></textarea>
-                <p class="text-xs text-slate-500 mt-2">* เมื่อขึ้น Error 401 ให้กด F5 ที่เว็บ สปสช. ก๊อปปี้ Cookie มาวางที่นี่ แล้วกดบันทึก</p>
-            </div>
-        </div>
-
-        <div class="p-6 border-t border-slate-100 bg-slate-50">
-            <button onclick="saveSettings()" class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-lg shadow-green-500/30">
-                💾 บันทึกการตั้งค่า
-            </button>
-        </div>
-    </div>
-
     <script>
-        // ==========================================
-        // ตั้งค่าข้อมูลเริ่มต้น (Hardcode Defaults)
-        // ใส่ข้อมูลตรงนี้เพื่อให้คนที่กดลิงก์เข้ามาสามารถใช้งานได้ทันที 
-        // โดยไม่ต้องกดตั้งค่าระบบหรือใส่รหัสผ่านใดๆ
-        // ==========================================
-        const DEFAULT_PID = '5101200017501';
-        const DEFAULT_COOKIE = '_ga_TRYKLSJ30C=GS2.1.s1765192592$o1$g0$t1765192592$j60$l0$h0; _ga=GA1.1.2080104490.1755560245; _ga_RSYZ8B7GPX=GS2.1.s1766390934$o10$g0$t1766390934$j60$l0$h0; _ga_517PBQ0JGD=GS2.1.s1770801540$o5$g1$t1770801835$j60$l0$h0; NSXLB.08e66a20-88b5-4993-b298-52bdcec3f081.2c4bdfdf-08be-4219-a853-800d0458e6fc=rzN4OY9S3k7hLulZnhXuYTye8fCLexppqaJhSZmF5knEU+ZjVGweS/Xy2ZAjB4XRD1lZwItzdnALhRicUR7SmA==; LIFF_STORE:expires:1654412393-QTAwCDJ1=1771983482972; app_session=22eb114e-99ea-47c9-8482-0c7ec83ee467';
-        // ==========================================
-
-        // ตั้งค่ารหัสผ่าน Admin
-        const ADMIN_PWD = '@Pp1100506232';
-        
-        // ระบบป้องกัน Brute-force (การเดารหัส)
-        let failedAttempts = 0;
-        let lockoutTimer = null;
-
-        // --- ระบบความปลอดภัย Admin ---
-        function promptAdmin() {
-            if (lockoutTimer) {
-                alert('ระบบถูกล็อคชั่วคราวจากการเดารหัสผิด กรุณารอสักครู่');
-                return;
-            }
-            document.getElementById('admin-modal').classList.remove('hidden');
-            document.getElementById('admin-pwd-input').value = '';
-            document.getElementById('admin-error').classList.add('hidden');
-            setTimeout(() => document.getElementById('admin-pwd-input').focus(), 100);
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
-        }
-
-        function verifyAdmin() {
-            if (lockoutTimer) return;
-
-            const input = document.getElementById('admin-pwd-input').value;
-            const errorEl = document.getElementById('admin-error');
-
-            if (input === ADMIN_PWD) {
-                failedAttempts = 0; // รีเซ็ตเมื่อใส่ถูก
-                closeAdminModal();
-                openSettings(); // เปิดหน้าต่างตั้งค่า
-            } else {
-                failedAttempts++;
-                errorEl.innerText = `รหัสผ่านไม่ถูกต้อง! (ผิดครั้งที่ ${failedAttempts}/3)`;
-                errorEl.classList.remove('hidden');
-
-                if (failedAttempts >= 3) {
-                    errorEl.innerText = 'พยายามเข้าสู่ระบบผิดพลาดเกินกำหนด ระบบล็อค 30 วินาที 🚨';
-                    lockoutTimer = setTimeout(() => {
-                        failedAttempts = 0;
-                        lockoutTimer = null;
-                        if(!document.getElementById('admin-modal').classList.contains('hidden')) {
-                            errorEl.classList.add('hidden');
-                        }
-                    }, 30000); // ล็อค 30 วินาที
-                }
-            }
-        }
-
-        // --- ระบบควบคุมหน้าต่าง (UI Navigation) ---
-        function openSettings() {
-            document.getElementById('main-panel').classList.add('hidden');
-            document.getElementById('settings-panel').classList.remove('hidden');
-            // โหลดค่าเดิมมาแสดงในช่องกรอก (ถ้าไม่มีให้ใช้ค่า Default)
-            document.getElementById('input-pid').value = localStorage.getItem('nhso_pid') || DEFAULT_PID;
-            document.getElementById('input-cookie').value = localStorage.getItem('nhso_cookie') || DEFAULT_COOKIE;
-        }
-
-        function closeSettings() {
-            document.getElementById('settings-panel').classList.add('hidden');
-            document.getElementById('main-panel').classList.remove('hidden');
-            fetchData(); // สั่งอัปเดตข้อมูลทันทีเมื่อปิดหน้าตั้งค่า
-        }
-
-        function saveSettings() {
-            const pid = document.getElementById('input-pid').value.trim();
-            const cookie = document.getElementById('input-cookie').value.trim();
-            
-            if(!pid || !cookie) {
-                alert('กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก');
-                return;
-            }
-
-            localStorage.setItem('nhso_pid', pid);
-            localStorage.setItem('nhso_cookie', cookie);
-            
-            closeSettings(); // บันทึกเสร็จให้สลับกลับไปหน้าหลัก
-        }
-
         // --- ระบบดึงข้อมูลจาก API ---
         async function fetchData() {
-            // ใช้ค่าจาก Local Storage ก่อน ถ้าไม่มีให้ใช้ค่าเริ่มต้น (Default) ที่ฝังไว้
-            const pid = localStorage.getItem('nhso_pid') || DEFAULT_PID;
-            const cookie = localStorage.getItem('nhso_cookie') || DEFAULT_COOKIE;
-
-            if (!pid || !cookie) {
-                showError('ระบบขาดข้อมูล PID หรือ Cookie');
-                document.getElementById('error-sub-msg').innerText = 'ผู้ดูแลระบบกรุณากดปุ่ม ⚙️ เพื่อตั้งค่า PID และ Cookie ก่อนใช้งาน';
-                return;
-            }
-
             // Reset UI State
             document.getElementById('loading').classList.remove('hidden');
             document.getElementById('result-container').classList.add('hidden');
@@ -236,11 +76,11 @@
             document.getElementById('debug-info').classList.add('hidden');
 
             try {
-                // ยิงไปหาเซิร์ฟเวอร์ Vercel ของเรา (ซึ่งจะทำหน้าที่เป็น Proxy ซ่อน IP ผู้ใช้)
+                // ยิงไปหาเซิร์ฟเวอร์ Vercel ของเรา
+                // ไม่ต้องส่ง pid และ cookie จากหน้าเว็บแล้ว ให้ระบบหลังบ้านไปดึงจาก Environment Variables เอง
                 const response = await fetch('/api/quota', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pid: pid, cookie: cookie })
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 const rawText = await response.text();
@@ -257,6 +97,9 @@
                         showError('เซิร์ฟเวอร์ขัดข้อง (Error 500)');
                         let cleanedText = rawText.replace(/<[^>]*>?/gm, '').substring(0, 150);
                         document.getElementById('error-sub-msg').innerText = "สาเหตุ: " + (cleanedText || "API สปสช. ปฏิเสธการเชื่อมต่อ");
+                    } else if (response.status === 400) {
+                        showError('การตั้งค่าไม่สมบูรณ์');
+                        document.getElementById('error-sub-msg').innerText = 'ผู้ดูแลระบบยังไม่ได้ตั้งค่า Vercel Environment Variables';
                     } else {
                         showError(`ข้อผิดพลาดทางเครือข่าย (HTTP ${response.status})`);
                     }
@@ -295,7 +138,7 @@
                     }
                 } else {
                     showError(data.error ? `Error: ${data.error}` : `HTTP Error ${response.status}`);
-                    document.getElementById('error-sub-msg').innerText = 'ตรวจสอบ Cookie ข้อมูลอีกครั้ง';
+                    document.getElementById('error-sub-msg').innerText = 'ตรวจสอบ Cookie ข้อมูลอีกครั้งใน Vercel Environment Variables';
                 }
             } catch (err) {
                 document.getElementById('loading').classList.add('hidden');
@@ -336,15 +179,13 @@
 
         // --- ทำงานเมื่อเปิดหน้าเว็บครั้งแรก ---
         window.onload = () => {
-            // โหลดปุ๊บ สั่งดึงข้อมูลทันทีโดยอัตโนมัติ (ไม่ต้องรอตั้งค่า)
+            // โหลดปุ๊บ สั่งดึงข้อมูลทันทีโดยอัตโนมัติ
             fetchData();
         };
 
-        // สั่งรีเฟรชข้อมูลอัตโนมัติทุกๆ 1 นาที (ถ้าอยู่หน้าหลัก)
+        // สั่งรีเฟรชข้อมูลอัตโนมัติทุกๆ 1 นาที
         setInterval(() => {
-            if (!document.getElementById('main-panel').classList.contains('hidden')) {
-                fetchData();
-            }
+            fetchData();
         }, 60000); 
     </script>
 </body>
